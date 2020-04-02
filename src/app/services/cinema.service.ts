@@ -28,4 +28,8 @@ export class CinemaService {
     let url = p._links.tickets.href.replace("{?projection}","");
     return this.http.get(url +"?projection=ticketProj");
   }
+
+  payerTicket(dataForm) {
+    return this.http.post(this.host+"/payerTickets", dataForm)
+  }
 }

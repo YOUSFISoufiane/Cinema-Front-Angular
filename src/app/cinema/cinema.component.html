@@ -19,7 +19,7 @@
           </ul>
           <div class="row" *ngIf="salles">
             <div *ngFor="let s of salles._embedded.salles">
-              <div class="col-md-6">
+              <div class="col-md-6" *ngIf="s.projections">
               <div class="panel panel-default">
                 <div class="panel-heading">   {{s.name}}  ::     {{s.projections._embedded.projections[0].film.titre}}  </div>
                 <div class="panel-body" *ngIf="s.projections">
@@ -36,9 +36,23 @@
                   <div *ngIf="currentprojections">
                       <div *ngIf="s.id==currentprojections.salle.id">
                         <div class="row" *ngIf="currentprojections.tickets._embedded">
-                          <button class="{{getTicketClass(t)}}" (click)="onSelectedTicket(t)" [disabled]="t.reserve" *ngFor="let t of currentprojections.tickets._embedded.tickets" >
+                          <button (click)="onSelectedTicket(t)" class= "{{getTicketClass(t)}}" [disabled]="t.reserve" *ngFor="let t of currentprojections.tickets._embedded.tickets" >
                             {{t.place.numero}}
                           </button>
+                        </div>
+                        <div *ngIf="selectedTickets.length>0">
+                          <form #f="ngForm" (ngSubmit)="onPayerTiket(f.value)" >
+                            <div class="form-group">
+                              <label class="control-label">Nom du Client</label>
+                              <input class="form-control" type="text" name="Nom Client" ngModel>
+                            </div>
+                            <div class="form-group">
+                              <label class="control-label">Code Payement</label>
+                              <input class="form-control" type="text" name="CodePayement" ngModel>
+                            </div>
+                            <button type="submit" class="btn btn-success">Payer</button>
+
+                          </form>
                         </div>
                     </div>
                     </div>
